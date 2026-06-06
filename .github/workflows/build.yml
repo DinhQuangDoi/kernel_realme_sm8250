@@ -33,12 +33,9 @@ jobs:
             gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi \
             gcc make
 
-      - name: Set up Clang
+      - name: Set up Proton Clang
         run: |
-          mkdir -p /tmp/clang
-          cd /tmp/clang
-          curl -sL "https://github.com/ZyCromerZ/Clang/releases/download/20.0.0-20250423/Clang-20.0.0-20250423.tar.gz" -o clang.tar.gz
-          tar -xf clang.tar.gz -C /tmp/clang
+          git clone --depth=1 https://github.com/kdrag0n/proton-clang.git /tmp/clang
           echo "/tmp/clang/bin" >> $GITHUB_PATH
 
       - name: Fix KernelSU symlink
