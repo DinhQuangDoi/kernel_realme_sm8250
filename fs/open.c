@@ -31,6 +31,7 @@
 #include <linux/ima.h>
 #include <linux/dnotify.h>
 #include <linux/compat.h>
+#include <linux/susfs.h>
 
 #include "internal.h"
 
