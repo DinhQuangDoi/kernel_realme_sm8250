@@ -18,12 +18,6 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Checkout KernelSU submodule
-        run: |
-          if [ -f .gitmodules ]; then
-            git submodule update --init --recursive
-          fi
-
       - name: Install dependencies
         run: |
           sudo apt-get update -qq
@@ -37,26 +31,6 @@ jobs:
         run: |
           git clone --depth=1 https://github.com/kdrag0n/proton-clang.git /tmp/clang
           echo "/tmp/clang/bin" >> $GITHUB_PATH
-
-      - name: Fix KernelSU symlink
-        run: |
-          if [ -L "drivers/kernelsu" ]; then
-            echo "Symlink drivers/kernelsu already exists"
-          elif [ -d "KernelSU/kernel" ]; then
-            ln -sf "$(realpath --relative-to=drivers KernelSU/kernel)" drivers/kernelsu
-            echo "Created symlink: drivers/kernelsu -> ../KernelSU/kernel"
-          else
-            echo "ERROR: KernelSU/kernel not found!"
-            exit 1
-          fi
-
-      - name: Clean up old driver symlink if broken
-        run: |
-          if [ -L "drivers/kernelsu" ] && [ ! -e "drivers/kernelsu" ]; then
-            rm drivers/kernelsu
-            ln -sf "$(realpath --relative-to=drivers KernelSU/kernel)" drivers/kernelsu
-            echo "Replaced broken symlink"
-          fi
 
       - name: Build kernel
         run: |
